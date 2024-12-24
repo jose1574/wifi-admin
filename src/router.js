@@ -5,6 +5,9 @@ const ensureAuthenticated = require("./middleware/auth");
 const {
   getHotspotProfUsers,
   createMikrotikConnection,
+  getServerHotspot,
+  createUserHotspot,
+  getUserById
 } = require("../services-mikrotik/services.mikrotik");
 
 // Mostrar formulario de login
@@ -41,31 +44,58 @@ router.get("/", ensureAuthenticated, (req, res) => {
   res.render("dashboard");
 });
 
+
 //crear un nuevo usuario
-router.get("new_user", ensureAuthenticated, async (req, res) => {
-
-});
-
-//crear nnuevo usuario
-router.post("new_user", ensureAuthenticated, async (req, res) => {
+router.get("/new_user", ensureAuthenticated, async (req, res) => {
   try {
-    const profilesUser = await getHotspotProfUsers(req);
+    const profiles = await getHotspotProfUsers(req);
+    const servers = await getServerHotspot(req);
+    res.render("form_user", { profiles, servers, message: "" });
   } catch (error) {
-    
+    console.error("ocurrio un error: ", error);
   }
 });
-
+//crear nnuevo usuario
+router.post("/new_user", ensureAuthenticated, async (req, res) => {
+  try {    
+    const { profile, name, user, password, server } = req.body;
+    const findUser = await getUserById(req, user)
+    if (findUser) {
+    const profiles = await getHotspotProfUsers(req);
+    const servers = await getServerHotspot(req);
+    res.render("form_user", { profiles, servers, message: `El usuario ${user}, ya existe.` });      
+    } else {
+      const saveUser = await createUserHotspot(
+        req, 
+        server, 
+        profile, 
+        user, 
+        name, 
+        password
+      );
+      console.log(saveUser);    
+      res.redirect("/");
+    }    
+  } catch (error) {
+    console.log(error);    
+    res.send('ocurrio un error: ')
+  }
+});
 
 
 router.get("/test", ensureAuthenticated, async (req, res) => {
   try {
-    const profilesUser = await getHotspotProfUsers(req);
-    console.log('estos son los datos desde el router : ', profilesUser);    
-    res.send("ruta de prueba");        
+    const { username } = req.body;
+    const user = await getUserById(req, "jose15745");
+    if (user === null) {
+      res.json(user);
+    } 
+    res.redirect
   } catch (error) {
-    res.send('error para obtener los perfiles: ', error)    
+    console.error("Error para obtener el usuario:", error);
+    res.status(500).send(`Error al obtener el usuario: ${error.message}`);
   }
-   
 });
+
 
 module.exports = router;
