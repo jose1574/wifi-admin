@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const ensureAuthenticated = require("./middleware/auth");
-
 const {
   getHotspotProfUsers,
   createMikrotikConnection,
   getServerHotspot,
   createUserHotspot,
-  getUserById
+  getOneUserById,
+  getAllUsersHotspot,
+  deleteOneUserById
 } = require("../services-mikrotik/services.mikrotik");
 
 // Mostrar formulario de login
@@ -59,7 +60,7 @@ router.get("/new_user", ensureAuthenticated, async (req, res) => {
 router.post("/new_user", ensureAuthenticated, async (req, res) => {
   try {    
     const { profile, name, user, password, server } = req.body;
-    const findUser = await getUserById(req, user)
+    const findUser = await getOneUserById(req, user)
     if (findUser) {
     const profiles = await getHotspotProfUsers(req);
     const servers = await getServerHotspot(req);
@@ -82,6 +83,27 @@ router.post("/new_user", ensureAuthenticated, async (req, res) => {
   }
 });
 
+router.get('/users', ensureAuthenticated, async (req, res ) => {
+  try {
+    const users = await getAllUsersHotspot(req);    
+    res.render("list_users", {users});
+  } catch (error) {
+    console.error("ocurrio un error: ", error);
+  }
+})
+
+router.post('/users', ensureAuthenticated, async (req, res) => {
+  try {
+    const { userId } = req.body 
+    console.log('esto esta llegando a la ruta: ', req.body);
+    
+    const deleteUser = await deleteOneUserById(req, userId) 
+    res.redirect('/users');
+  } catch (error) {
+    console.error('ocurrio un error al eliminar el usuario: ', error);    
+    res.status(500).json('ocurrio un error');    
+  }
+})
 
 router.get("/test", ensureAuthenticated, async (req, res) => {
   try {

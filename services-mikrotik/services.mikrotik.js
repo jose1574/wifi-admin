@@ -67,7 +67,7 @@ async function createUserHotspot(req, server, profile, user, name, password) {
   }
 }
 
-async function getUserById(req, username) {
+async function getOneUserById(req, username) {
   try {
     const conn = await createMikrotikConnection(req);
     const client = await conn.connect();
@@ -81,10 +81,45 @@ async function getUserById(req, username) {
   }
 }
 
+async function getAllUsersHotspot(req, username) {
+  try {
+    const conn = await createMikrotikConnection(req);
+    const client = await conn.connect();
+    const users = await client.menu("/ip hotspot user").get();
+    const filteredUsers = users.filter(user => user.name !== 'default-trial');
+    await conn.close();
+    return filteredUsers;
+  } catch (error) {
+    console.error(
+      `Ocurrió un error al buscar el usuarios`,error
+    );
+  }
+}
+
+async function deleteOneUserById(req, userId) {
+  console.log('esto es lo que llega a la funcion: ', userId);
+  
+  try {
+    const conn = await createMikrotikConnection(req);
+    const client = await conn.connect();
+    const deleteUser = await client.menu("/ip hotspot user").remove(userId);
+    await conn.close();
+    return true;
+  } catch (error) {
+    console.error(
+      `Ocurrió un error al eliminar al usuario: ${userId}`,error
+    );
+  }
+}
+
+
+
 module.exports = {
   createMikrotikConnection,
   getHotspotProfUsers,
   createUserHotspot,
   getServerHotspot,
-  getUserById,
+  getOneUserById,
+  getAllUsersHotspot,
+  deleteOneUserById
 };

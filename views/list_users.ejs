@@ -1,0 +1,44 @@
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+
+<body>
+  <%- include('partials/header') %>
+  <h1>lista de usuarios</h1>
+  <table>
+    <tr>
+      <th>Nombre:</th>
+      <th>Usuario:</th>
+      <th>Clave:</th>
+      <th>Opciones</th>
+    </tr>
+    <% users.forEach( user => {%>
+    <tr>
+      <td><%= user.comment %></td>
+      <td><%= user.name %></td>
+      <td><%= user.password %></td>
+      <td>
+        <form action="/users" method="post">
+            <input type="hidden" id="data" name="userId" value="<%=user.id%>">
+            <input type="submit" value="Eliminar"/>
+        </form>
+      </td>
+    </tr>
+    <% }); %>
+  </table>
+</body>

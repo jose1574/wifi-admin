@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Configuración de la sesión
 app.use(session({
-    secret: 'your_secret_key', // Cambia esto por una clave secreta más segura
+    secret: 'sldkjfñslakdfjlksaf', // Cambia esto por una clave secreta más segura
     resave: false,
     saveUninitialized: true
 }));
@@ -22,5 +22,5 @@ app.use(session({
 app.use('/', require('./router'));
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    console.log(`Servidor Iniciado  en el puerto ${port}`);
 });
