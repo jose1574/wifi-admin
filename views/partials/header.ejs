@@ -1,15 +1,49 @@
 <header>
-    <h1>Administrador Wifi</h1>
- 
-      <nav>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Inicio</a>
+        </li>
+       <li class="nav-item">
+          <a class="nav-link" href="/new_user">crear nuevo usuario</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users">lista de usuarios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/configs">Ajustes</a>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link" href="/logout">Salir</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll('.nav-link');
+  
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    });
+  </script>
+  
+<!--   
+  <h1>Administrador Wifi</h1>
+      <nav class="navbar navbar-dark bg-dark">
         <ul>
           <li><a href="/">Inicio</a></li>
           <li><a href="/new_user">crear nuevo usuario</a></li>
           <li><a href="/users">lista de usuarios</a></li>
           <li><a href="/logout">Salir</a></li>
         </ul>
-      </nav>
-
-
+      </nav> -->
   </header>
-  

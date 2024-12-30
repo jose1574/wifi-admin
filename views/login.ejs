@@ -1,17 +1,41 @@
-  <h1>Login</h1>
+
+<%- include('partials/head') %>
+
+<style>
+  .login {
+    display: flex;
+    justify-content: center;
+  }
+  body {
+    display: block;
+    padding: 50px;
+    text-align: center;
+  }
+</style>
+
+<body>
+    <div class="login">
+      <h1>Inicio de sesión</h1>
+    </div>
+
+    
+  <div id="alert" style="color: red">
+    <%= message%></div>
+  <div>
+
   <form action="/login" method="post">
-    <div id="alert" style="color: red">
-      <%= message%>
+    <div class="mb-3">
+      <label for="user" class="form-label login">Usuario: </label>
+      <input type="text" class="form-control" id="user" aria-describedby="emailHelp" name="username" value="josegomez">
     </div>
-    <div>
-      <label for="username">Username:</label>
-      <input type="text" name="username" id="username" required value="josegomez">
+    <div class="mb-3">
+      <label for="password" class="form-label login">Clave:</label>
+      <input type="password" class="form-control" id="password" name="password" value="jose1574**">
     </div>
-    <div>
-      <label for="password">Password:</label>
-      <input type="password" name="password" id="password" required value="jose1574**">
+    <div class="login">
+      <button type="submit" class="btn btn-primary">Ingresar</button>
     </div>
-    <button type="submit">Login</button>
   </form>
   <%- include('partials/footer') %>
+</body>
 

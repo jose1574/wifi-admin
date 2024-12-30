@@ -18,6 +18,9 @@ app.use(session({
     saveUninitialized: true
 }));
 
+// Middleware para servir archivos estáticos 
+// app.use(express.static(path.join(__dirname, '../public')));
+
 // Rutas
 app.use('/', require('./router'));
 
