@@ -105,12 +105,19 @@ router.post('/users', ensureAuthenticated, async (req, res) => {
   }
 })
 
-router.get('/configs', ensureAuthenticated, (req, res) => {
-  const host = process.env.HOST;
-  console.log(host);
-  
-  res.render('configs')
-})
+router.get("/test", ensureAuthenticated, async (req, res) => {
+  try {
+    const { username } = req.body;
+    const user = await getUserById(req, "jose15745");
+    if (user === null) {
+      res.json(user);
+    } 
+    res.redirect
+  } catch (error) {
+    console.error("Error para obtener el usuario:", error);
+    res.status(500).send(`Error al obtener el usuario: ${error.message}`);
+  }
+});
 
 
 module.exports = router;
