@@ -1,114 +1,71 @@
-<%- include('partials/head') %>
+ <%- include('partials/head') %>
 <body>
   <%- include('partials/header') %>
-  <div class="alert alert-info" role="alert" style="text-align: center">
-    <h1>Nuevo usuario</h1>
-  </div>
-  <div class="body">
-    <style>
-      .body {
-        display: flex;
-        justify-content: center;
-        padding: 10px;
-      }
-      .content-form-user {
-        background-color: #bccad6;
-        padding: 10px;
-        border-radius: 5px;
-      }
-      .custom-btn-submit {
-        display: flex;
-        justify-content: center;
-        padding-top: 10px;
-      }
-      .section-btn-selection {
-        display: flex;
-        justify-content: space-between;
-      }
-    </style>
-    <div>
-      <p style="color: red"><%= message %></p>
-    </div>
-    <div class="content-form-user">
-      <form action="/new_user" method="post">
-        <div>
-          <div>
-            <div>
-              <label for="servers" class="form-label"
-                >Seleciona un servidor:
-              </label>
-            </div>
-            <div>
-              <select
-                id="servers"
-                name="server"
-                class="btn btn-outline-primary dropdown-toggle btn-sm"
-              >
-                <% servers.forEach(server=> { %>
-                <option value="<%= server.name %>" class="dropdown-item">
-                  <%= server.name %>
-                </option>
-                <% }); %>
-              </select>
-            </div>
-          </div>
-          <div>
-            <div>
-              <label for="profiles" class="form-label"
-                >Selecciona un perfil:</label
-              >
-            </div>
-            <div>
-              <select
-                id="profiles"
-                name="profile"
-                class="btn btn-outline-primary dropdown-toggle btn-sm"
-              >
-                <% profiles.forEach(profile=> { %>
-                <option value="<%= profile.name %>" class="dropdown-item">
-                  <%= profile.name %>
-                </option>
-                <% }); %>
-              </select>
-            </div>
-          </div>
-        </div>
+  <div class="container">
+    <form action="/new_user" method="post">
+      <div>
+        <h3>
+          Crea nuevo usuario
+        </h3>
+      </div>
+      <div>
+        <p style="color: red"><%= message %></p>
+      </div>
+      <div class="mb-3 mt-3">
 
         <div>
-          <label for="name" class="form-label">Nombre: </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            required
-            class="form-control"
-          />
+          <div>
+            <label for="servers" class="form-label"
+              >Servidor</label
+            >
+          </div>
+          <select
+            id="servers"
+            name="server"
+            class="btn btn-outline-secondary dropdown-toggle btn-sm"
+          >
+            <% servers.forEach(server=> { %>
+            <option value="<%= server.name %>" class="dropdown-item">
+              <%= server.name %>
+            </option>
+            <% }); %>
+          </select>
         </div>
+      </div>
+      <div class="mb-3 mt-3">
         <div>
-          <label for="user" class="form-label">Usuario:</label>
-          <input
-            type="text"
-            name="user"
-            id="user"
-            required
-            class="form-control"
-          />
+          <div>
+            <label for="profiles" class="form-label"
+              >perfil</label
+            >
+          </div>
+          <select
+            id="profiles"
+            name="profile"
+            class="btn btn-outline-secondary dropdown-toggle btn-sm"
+          >
+            <% profiles.forEach(profile=> { %>
+            <option value="<%= profile.name %>" class="dropdown-item">
+              <%= profile.name %>
+            </option>
+            <% }); %>
+          </select>
         </div>
-        <div>
-          <label for="password" class="form-label">clave:</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            required
-            class="form-control"
-          />
-        </div>
-        <div class="custom-btn-submit">
-          <button type="submit" class="btn btn-primary">guardar</button>
-        </div>
-      </form>
-    </div>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="name" class="form-label">Nombre</label>
+        <input type="text" class="form-control" id="email" placeholder="Ingrese nombre" name="name">
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="user" class="form-label">Usuario</label>
+        <input type="user" class="form-control" id="user" placeholder="Ingrese usuario" name="user">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Clave</label>
+        <input type="password" class="form-control" id="password" placeholder="Ingrese clave" name="password">
+      </div>
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
   </div>
   <%- include('partials/footer') %>
 </body>
