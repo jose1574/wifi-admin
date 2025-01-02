@@ -1,31 +1,55 @@
 <%- include('partials/head') %>
-<script></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script>
+  function togglePassword(id) {
+    const passwordField = document.getElementById(id);
+    const icon = document.getElementById('icon-' + id);
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      passwordField.type = "password";
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  }
+</script>
 <body>
   <%- include('partials/header') %>
   <div class="container" style="border-radius: 5px">
-    <h1 style="text-align: center">lista de usuarios</h1>
-    <table class="table table-striped">
-      <tr class="table-primary">
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Usuario</th>
-        <th>Clave</th>
-        <th>Opciones</th>
-      </tr>
-      <% let count = 0; users.forEach( user => { count = count + 1; %>
-      <tr>
-        <td class="table-primary"><%= count %></td>
-        <td class="table-primary"><%= user.comment %></td>
-        <td class="table-primary"><%= user.name %></td>
-        <td class="table-primary"><%= user.password %></td>
-        <td class="table-primary">
-          <form action="/users" method="post">
-            <input type="hidden" id="data" name="userId" value="<%=user.id%>" />
-            <input type="submit" value="Borrar" class="btn btn-danger btn-sm" />
-          </form>
-        </td>
-      </tr>
-      <% }); %>
+    <div>
+      <h3>Lista de usuarios</h3>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Usuario</th>
+          <th scope="col">Clave</th>
+          <th scope="col">Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% let count = 0; users.forEach( user => { count = count + 1; %>
+          <tr>
+            <th scope="row"><%= count %></th>
+            <td><%= user.comment %></td>
+            <td><%= user.name %></td>
+            <td>
+              <input type="password" id="password-<%= count %>" value="<%= user.password %>" />
+            </td>
+            <td>
+                <input type="hidden" id="data" name="userId" value="<%=user.id%>" />
+                <input type="submit" value="Borrar" class="btn btn-danger btn-sm" />
+              <button class="btn btn-primary btn-sm" onclick="togglePassword('password-<%= count %>')">
+                <i id="icon-password-<%= count %>" class="fas fa-eye"></i>
+              </button>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
     </table>
   </div>
 </body>
