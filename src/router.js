@@ -48,8 +48,10 @@ router.get("/logout", async (req, res) => {
 });
 
 // Página principal
-router.get("/", ensureAuthenticated, (req, res) => {
-  res.render("dashboard");
+router.get("/", ensureAuthenticated, async (req, res) => {
+  const users = await getAllUsersHotspot(req);
+  const userCount = users.length
+  res.render("dashboard", {users: userCount});
 });
 
 //crear un nuevo usuario
