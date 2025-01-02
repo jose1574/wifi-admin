@@ -2,8 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const app = express();
-require('dotenv').config();
-const port = process.env.PORT_APP || 3000;
+const port = process.env.PORT || 3000;
 
 // Configuración del motor de plantillas
 app.set('view engine', 'ejs');
