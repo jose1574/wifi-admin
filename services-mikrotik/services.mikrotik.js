@@ -1,7 +1,7 @@
 const RouterOSClient = require("routeros-client").RouterOSClient;
 
 const mikrotikConfig = {
-  host: process.env.MIKROTIK_HOST || "172.16.32.1",
+  host: process.env.IP_ROUTER,
 };
 
 //crea la conexion con la base de datos
@@ -20,9 +20,10 @@ async function getHotspotProfUsers(req) {
   try {
     const conn = await createMikrotikConnection(req);
     const client = await conn.connect();
-    const result = await client.menu("/ip hotspot user profile").get();
+    const profiles = await client.menu("/ip hotspot user profile").get();
+    const filterProfiles = profiles.filter(profile => profile.name !== 'default')
     await conn.close();
-    return result;
+    return filterProfiles;
   } catch (error) {
     throw new Error(
       "ocurrio un error al buscar los perfiles de usuarios: ",
@@ -111,8 +112,6 @@ async function deleteOneUserById(req, userId) {
     );
   }
 }
-
-
 
 module.exports = {
   createMikrotikConnection,

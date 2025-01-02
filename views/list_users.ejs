@@ -1,30 +1,31 @@
-
-
 <%- include('partials/head') %>
+<script></script>
 <body>
   <%- include('partials/header') %>
-  <div class="container" style="border-radius: 5px;"> 
-    <h1 style="text-align: center;">lista de usuarios</h1>
-  <table class="table table-striped">
-    <tr class="table-primary">
-      <th>Nombre</th>
-      <th>Usuario</th>
-      <th>Clave</th>
-      <th>Opciones</th>
-    </tr>
-    <% users.forEach( user => {%>
-    <tr>
-      <td class="table-primary"><%= user.comment %></td>
-      <td class="table-primary"><%= user.name %></td>
-      <td class="table-primary"><%= user.password %></td>
-      <td class="table-primary">
-        <form action="/users" method="post">
-            <input type="hidden" id="data" name="userId" value="<%=user.id%>">
-            <input type="submit" value="Eliminar" class="btn btn-danger"/>
-        </form>
-      </td>
-    </tr>
-    <% }); %>
-  </table>
+  <div class="container" style="border-radius: 5px">
+    <h1 style="text-align: center">lista de usuarios</h1>
+    <table class="table table-striped">
+      <tr class="table-primary">
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Usuario</th>
+        <th>Clave</th>
+        <th>Opciones</th>
+      </tr>
+      <% let count = 0; users.forEach( user => { count = count + 1; %>
+      <tr>
+        <td class="table-primary"><%= count %></td>
+        <td class="table-primary"><%= user.comment %></td>
+        <td class="table-primary"><%= user.name %></td>
+        <td class="table-primary"><%= user.password %></td>
+        <td class="table-primary">
+          <form action="/users" method="post">
+            <input type="hidden" id="data" name="userId" value="<%=user.id%>" />
+            <input type="submit" value="Borrar" class="btn btn-danger btn-sm" />
+          </form>
+        </td>
+      </tr>
+      <% }); %>
+    </table>
   </div>
 </body>

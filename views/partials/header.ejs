@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
       <!-- Botón para el menú desplegable -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button">
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Menú desplegable -->
@@ -18,9 +18,6 @@
             <a class="nav-link" href="/users">lista de usuarios</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/configs">Ajustes</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="/logout">Salir</a>
           </li>
         </ul>
@@ -29,17 +26,34 @@
   </nav>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener("DOMContentLoaded", () => {
       const currentPath = window.location.pathname;
-      const navLinks = document.querySelectorAll('.nav-link');  
+      const navLinks = document.querySelectorAll(".nav-link");
 
-      navLinks.forEach(link => {
-        if (link.getAttribute('href') === currentPath) {
-          link.classList.add('active');
+      navLinks.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
         } else {
-          link.classList.remove('active');
+          link.classList.remove("active");
         }
       });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const navbarCollapse = document.getElementById("navbarNav"); // Función para cambiar la clase 'show' dinámicamente
+      function toggleShow() {
+        if (navbarCollapse.classList.contains("show")) {
+          console.log("si");
+
+          navbarCollapse.classList.remove("show");
+        } else {
+          console.log("no");
+
+          navbarCollapse.classList.add("show");
+        }
+      }
+      const navbarToggler = document.querySelector(".navbar-toggler");
+      navbarToggler.addEventListener("click", toggleShow);
     });
   </script>
 </header>

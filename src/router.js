@@ -8,9 +8,8 @@ const {
   createUserHotspot,
   getOneUserById,
   getAllUsersHotspot,
-  deleteOneUserById
+  deleteOneUserById,
 } = require("../services-mikrotik/services.mikrotik");
-
 
 // Mostrar formulario de login
 router.get("/login", (req, res) => {
@@ -30,8 +29,15 @@ router.post("/login", async (req, res) => {
     conn.close();
     res.redirect("/");
   } catch (err) {
-    req.session.message = "Clave o usuario incorrecto";
-    res.redirect("login");
+    if (err.message === "Timed out after 10 seconds") {
+      req.session.message ="falla al intentar conectar con dirección IP del router, especifique correctamente la dirección IP de su router ";
+      res.redirect("/login");
+    } else {
+      console.error("ocurrio un error: ", err);
+
+      req.session.message = "Clave o usuario incorrecto";
+      res.redirect("/login");
+    }
   }
 });
 
@@ -46,7 +52,6 @@ router.get("/", ensureAuthenticated, (req, res) => {
   res.render("dashboard");
 });
 
-
 //crear un nuevo usuario
 router.get("/new_user", ensureAuthenticated, async (req, res) => {
   try {
@@ -59,59 +64,54 @@ router.get("/new_user", ensureAuthenticated, async (req, res) => {
 });
 //crear nnuevo usuario
 router.post("/new_user", ensureAuthenticated, async (req, res) => {
-  try {    
+  try {
     const { profile, name, user, password, server } = req.body;
-    const findUser = await getOneUserById(req, user)
+    const findUser = await getOneUserById(req, user);
     if (findUser) {
-    const profiles = await getHotspotProfUsers(req);
-    const servers = await getServerHotspot(req);
-    res.render("form_user", { profiles, servers, message: `El usuario ${user}, ya existe.` });      
+      const profiles = await getHotspotProfUsers(req);
+      const servers = await getServerHotspot(req);
+      res.render("form_user", {
+        profiles,
+        servers,
+        message: `El usuario ${user}, ya existe.`,
+      });
     } else {
       const saveUser = await createUserHotspot(
-        req, 
-        server, 
-        profile, 
-        user, 
-        name, 
+        req,
+        server,
+        profile,
+        user,
+        name,
         password
       );
-      console.log(saveUser);    
+      console.log(saveUser);
       res.redirect("/");
-    }    
+    }
   } catch (error) {
-    console.log(error);    
-    res.send('ocurrio un error: ')
+    console.log(error);
+    res.send("ocurrio un error: ");
   }
 });
 
-router.get('/users', ensureAuthenticated, async (req, res ) => {
+router.get("/users", ensureAuthenticated, async (req, res) => {
   try {
-    const users = await getAllUsersHotspot(req);    
-    res.render("list_users", {users});
+    const users = await getAllUsersHotspot(req);
+    res.render("list_users", { users });
   } catch (error) {
     console.error("ocurrio un error: ", error);
   }
-})
+});
 
-router.post('/users', ensureAuthenticated, async (req, res) => {
+router.post("/users", ensureAuthenticated, async (req, res) => {
   try {
-    const { userId } = req.body 
-    console.log('esto esta llegando a la ruta: ', req.body);
-    
-    const deleteUser = await deleteOneUserById(req, userId) 
-    res.redirect('/users');
+    const { userId } = req.body;
+    console.log("esto esta llegando a la ruta: ", req.body);
+    const deleteUser = await deleteOneUserById(req, userId);
+    res.redirect("/users");
   } catch (error) {
-    console.error('ocurrio un error al eliminar el usuario: ', error);    
-    res.status(500).json('ocurrio un error');    
+    console.error("ocurrio un error al eliminar el usuario: ", error);
+    res.status(500).json("ocurrio un error");
   }
-})
-
-router.get('/configs', ensureAuthenticated, (req, res) => {
-  const host = process.env.HOST;
-  console.log(host);
-  
-  res.render('configs')
-})
-
+});
 
 module.exports = router;

@@ -3,7 +3,7 @@ const session = require('express-session');
 const path = require('path');
 const app = express();
 require('dotenv').config();
-const port = process.env.PORT_APP || 3000;
+const port = process.env.PORT_APP;
 
 // Configuración del motor de plantillas
 app.set('view engine', 'ejs');
@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Configuración de la sesión
 app.use(session({
-    secret: 'sldkjfñslakdfjlksaf', // Cambia esto por una clave secreta más segura
+    secret: 'sldkjfñslakdfjlksaf', 
     resave: false,
     saveUninitialized: true
 }));
