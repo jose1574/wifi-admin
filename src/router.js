@@ -29,12 +29,11 @@ router.post("/login", async (req, res) => {
     conn.close();
     res.redirect("/");
   } catch (err) {
-    if (err.message === "Timed out after 10 seconds") {
+    if (err.message === "Timed out after 10 seconds" || err.message === "") {
       req.session.message ="falla al intentar conectar con dirección IP del router, especifique correctamente la dirección IP de su router ";
       res.redirect("/login");
     } else {
-      console.error("ocurrio un error: ", err);
-
+      console.error("ocurrio un error: ", err.message);
       req.session.message = "Clave o usuario incorrecto";
       res.redirect("/login");
     }

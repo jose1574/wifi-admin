@@ -1,11 +1,26 @@
 {
-  "name": "new-app",
+  "name": "wifi-admin",
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "pkg . --out-dir dist/compile",
     "start": "node src/index.js",
-    "start:dev": "nodemon src/index.js"
+    "start:dev": "nodemon src/index.js",
+    "postinstall": "pm2 save"
+  },
+  "bin": {
+    "mi-app": "src/index.js"
+  },
+  "pkg": {
+    "assets": [
+      "views/**/*"
+    ],
+    "targets": [
+      "node18-linux-x64",
+      "node18-macos-x64",
+      "node18-win-x64"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -19,6 +34,7 @@
     "express-session": "^1.18.1",
     "jquery": "^3.7.1",
     "nodemon": "^3.1.9",
+    "pm2": "^5.4.3",
     "routeros-client": "^1.1.2"
   }
 }
