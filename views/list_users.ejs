@@ -18,6 +18,7 @@
     }
   }
 </script>
+
 <body>
   <%- include('partials/header') %>
   <div class="container" style="border-radius: 5px">
@@ -55,23 +56,30 @@
                   />
                 </td>
                 <td>
-                  <input
-                    type="hidden"
-                    id="data"
-                    name="userId"
-                    value="<%=user.id%>"
-                  />
-                  <input
-                    type="submit"
-                    value="Borrar"
-                    class="btn btn-danger btn-sm"
-                  />
-                  <button
-                    class="btn btn-primary btn-sm"
-                    onclick="togglePassword('password-<%= count %>')"
-                  >
-                    <i id="icon-password-<%= count %>" class="fas fa-eye"></i>
-                  </button>
+                  <div class="d-flex bd-highlight ml-3">
+                    <form
+                      action="/users"
+                      method="post"
+                    >
+                      <input
+                        type="hidden"
+                        id="data"
+                        name="userId"
+                        value="<%=user.id%>"
+                      />
+                      <input
+                        type="submit"
+                        value="Borrar"
+                        class="btn btn-danger btn-sm"
+                      />
+                    </form>
+                      <button
+                        class="btn btn-primary btn-sm ms-3"
+                        onclick="togglePassword('password-<%= count %>')"
+                      >
+                        <i id="icon-password-<%= count %>" class="fas fa-eye"></i>
+                      </button>
+                  </div>
                 </td>
               </tr>
               <% }); %>
