@@ -1,22 +1,26 @@
 [Setup]
-AppName=MiApp
+AppName=Wifi-Admin
 AppVersion=1.0
 DefaultDirName={pf64}\wifi-admin
 DefaultGroupName=wifi-admin
-OutputDir=dist
+OutputDir=dist\installer
 OutputBaseFilename=wifi-admin-v1.0-x64
+SetupIconFile=LOGO-GOCA.ico
 
 [Files]
-Source: "wifi-admin-win.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\installer\node-v20.18.1-x64.msi"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\installer\install-node.bat"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\compile\wifi-admin-win.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: ".env"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: AddToEnvFile
-Source: "install\node-v20.18.1-x64.msi"; DestDir: "{tmp}"; Flags: ignoreversion
+
+
 
 [Icons]
-Name: "{group}\wifi-admin"; Filename: "{app}\wifi-admin-win.exe"
-Name: "{userdesktop}\wifi-admin"; Filename: "{app}\wifi-admin-win.exe"
+Name: "{group}\wifi-admin"; Filename: "{app}\wifi-admin-win.exe"; IconFilename: "{app}\LOGO-GOCA.ICO"
+Name: "{userdesktop}\wifi-admin"; Filename: "{app}\wifi-admin-win.exe"; IconFilename: "{app}\LOGO-GOCA.ICO"
 
 [Run]
-Filename: "{tmp}\node-v20.18.1-x64.msi"; Parameters: "/quiet"; Flags: runhidden waituntilterminated
+Filename: "{cmd}"; Parameters: "/c cd /d {app} && start /wait node-v20.18.1-x64.msi"; Flags: runhidden waituntilterminated
 Filename: "{cmd}"; Parameters: "/c cd /d {app} && npm install"; Flags: runhidden waituntilterminated
 Filename: "{cmd}"; Parameters: "/c cd /d {app} && node -v"; Flags: runhidden waituntilterminated
 Filename: "{cmd}"; Parameters: "/c cd /d {app} && npx pm2 -v"; Flags: runhidden waituntilterminated
@@ -88,4 +92,3 @@ begin
     FileContents.Free;
   end;
 end;
-
